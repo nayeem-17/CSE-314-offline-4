@@ -6,18 +6,23 @@
 #include <signal.h>
 #include <wait.h>
 #include <pthread.h>
+#include "zemaphore.h"
 
-#define NUM_THREADS 3
+#define NUM_THREADS 10
 #define NUM_ITER 10
+zem_t toggle_zem;
+int turn = 0;
 
 void *justprint(void *data)
 {
   int thread_id = *((int *)data);
-
-  for(int i=0; i < NUM_ITER; i++)
-    {
-      printf("This is thread %d\n", thread_id);
-    }
+  for (int i = 0; i < NUM_ITER; i++)
+  {
+    zem_down(&toggle_zem);
+    printf("This is thread %d\n", turn);
+    turn = (turn + 1) % NUM_THREADS;
+    zem_up(&toggle_zem);
+  }
   return 0;
 }
 
@@ -27,17 +32,18 @@ int main(int argc, char *argv[])
   pthread_t mythreads[NUM_THREADS];
   int mythread_id[NUM_THREADS];
 
-  
-  for(int i =0; i < NUM_THREADS; i++)
-    {
-      mythread_id[i] = i;
-      pthread_create(&mythreads[i], NULL, justprint, (void *)&mythread_id[i]);
-    }
-  
-  for(int i =0; i < NUM_THREADS; i++)
-    {
-      pthread_join(mythreads[i], NULL);
-    }
-  
+  zem_init(&toggle_zem, 1);
+
+  for (int i = 0; i < NUM_THREADS; i++)
+  {
+    mythread_id[i] = i;
+    pthread_create(&mythreads[i], NULL, justprint, (void *)&mythread_id[i]);
+  }
+
+  for (int i = 0; i < NUM_THREADS; i++)
+  {
+    pthread_join(mythreads[i], NULL);
+  }
+
   return 0;
 }
