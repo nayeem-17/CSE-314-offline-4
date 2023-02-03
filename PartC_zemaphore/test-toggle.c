@@ -8,7 +8,7 @@
 #include <pthread.h>
 #include "zemaphore.h"
 
-#define NUM_THREADS 10
+#define NUM_THREADS 3
 #define NUM_ITER 10
 zem_t toggle_zem;
 int turn = 0;
