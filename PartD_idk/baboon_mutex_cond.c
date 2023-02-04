@@ -2,17 +2,15 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-
 enum {UNUSED=-1, LEFT, RIGHT};
-
 struct rope{
     int capacity ;
     int dir ; // -1, 0 , 1
-    int cnt;
-    pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-    pthread_cond_t  lock_cond = PTHREAD_COND_INITIALIZER; 
-    pthread_mutex_t wait = PTHREAD_MUTEX_INITIALIZER;
-    pthread_cond_t  wait_cond = PTHREAD_COND_INITIALIZER;
+    int crossing_count;
+    pthread_mutex_t lock; 
+    pthread_cond_t lock_cond; 
+    pthread_mutex_t capacity_lock;
+    pthread_cond_t capacity_cond;   
 } rope ;
 
 typedef struct {
@@ -28,43 +26,48 @@ args *baboon_thread_args;
 void rope_init() {
     rope.capacity = rope_capacity;
     rope.dir = UNUSED;
-    rope.cnt = 0;
+    rope.crossing_count = 0;
 
-    // zem_init(&rope.lock, rope.capacity);
-    // zem_init(&rope.wait, 1);
-    // zem_init(&rope.baboons, rope.capacity) ;
-}
-
-void acquire_rope_lock(){
-    rope.cnt++ ;
-    zem_down(&rope.lock);
-}
-void release_rope_lock(){
-    rope.cnt-- ;
-    zem_up(&rope.lock);
+    
+    pthread_mutex_init(&rope.lock, NULL);
+    pthread_cond_init(&rope.lock_cond, NULL);
+    pthread_mutex_init(&rope.capacity_lock, NULL);
+    pthread_cond_init(&rope.capacity_cond, NULL);
 }
 
 void *baboon(void *ptr ){
     int id= ((args*) ptr)->id; 
     int dir = ((args*) ptr)->dir; 
 
-    while(1) {
-        acquire_rope_lock() ;
-        if( !( (rope.dir == UNUSED || rope.cnt == 1 || rope.dir == dir)) ) { //&& rope.cnt < rope.capacity 
-            release_rope_lock() ;
-            zem_down(&rope.wait) ;
-            continue; 
-        }
-
-        rope.dir = dir;  
-        printf("Baboon %d going %d\n", id,dir) ;
-        // printf()
-        zem_up(&rope.wait) ;
-        release_rope_lock();
-        break; 
+    pthread_mutex_lock(&rope.capacity_lock);
+    while( rope.capacity <= 0 ) 
+        pthread_cond_wait(&rope.capacity_cond, &rope.capacity_lock);
+    rope.capacity-- ;
+    pthread_mutex_unlock(&rope.capacity_lock);
+    
+    pthread_mutex_lock(&rope.lock);
+    while( !( (rope.dir == UNUSED || rope.crossing_count == 0 || rope.dir == dir)) ) { 
+        pthread_cond_wait(&rope.lock_cond,&rope.lock) ; 
     }
 
-   
+    rope.dir = dir;  
+    rope.crossing_count++ ;
+    printf("Baboon %d going %d\n", id,dir) ;
+    pthread_cond_signal(&rope.lock_cond); 
+    pthread_mutex_unlock(&rope.lock) ;
+    
+    // sleep(1) ;
+
+    pthread_mutex_lock(&rope.lock);
+    rope.crossing_count-- ;
+    printf("Baboon %d reached %d\n", id,dir) ;
+    if( rope.crossing_count == 0 ) rope.dir=UNUSED;
+    pthread_cond_signal(&rope.lock_cond); 
+    pthread_mutex_unlock(&rope.lock) ;
+    
+    rope.capacity++ ;
+    pthread_cond_signal(&rope.capacity_cond) ;
+    pthread_mutex_unlock(&rope.capacity_lock) ;
 }
 
 

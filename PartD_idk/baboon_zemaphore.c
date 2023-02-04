@@ -8,7 +8,7 @@ enum {UNUSED=-1, LEFT, RIGHT};
 struct rope{
     int capacity ;
     int dir ; // -1, 0 , 1
-    int cnt;
+    int crossing_count;
     zem_t lock; 
     zem_t baboons;
 } rope ;
@@ -26,20 +26,20 @@ args *baboon_thread_args;
 void rope_init() {
     rope.capacity = rope_capacity;
     rope.dir = UNUSED;
-    rope.cnt = 0;
+    rope.crossing_count = 0;
 
     zem_init(&rope.lock, 1);
     zem_init(&rope.baboons, rope.capacity) ;
 }
 
-void acquire_rope_lock(){
-    rope.cnt++ ;
-    zem_down(&rope.lock);
-}
-void release_rope_lock(){
-    rope.cnt-- ;
-    zem_up(&rope.lock);
-}
+// void acquire_rope_lock(){
+//     rope.crossing_count++ ;
+//     zem_down(&rope.lock);
+// }
+// void release_rope_lock(){
+//     rope.crossing_count-- ;
+//     zem_up(&rope.lock);
+// }
 
 void *baboon(void *ptr ){
     int id= ((args*) ptr)->id; 
@@ -48,7 +48,7 @@ void *baboon(void *ptr ){
     zem_down(&rope.baboons) ;
     while(1) {
         zem_down(&rope.lock) ;
-        if( !( (rope.dir == UNUSED || rope.cnt == 0 || rope.dir == dir)) ) { 
+        if( !( (rope.dir == UNUSED || rope.crossing_count == 0 || rope.dir == dir)) ) { 
             zem_up(&rope.lock) ;
             continue; 
         }
@@ -56,15 +56,16 @@ void *baboon(void *ptr ){
     }
 
     rope.dir = dir;  
-    rope.cnt++ ;
+    rope.crossing_count++ ;
     printf("Baboon %d going %d\n", id,dir) ;
     zem_up(&rope.lock) ;
 
-    sleep(1) ;
+    // sleep(1) ;
 
     zem_down(&rope.lock) ;
-    rope.cnt-- ;
-    if( rope.cnt == 0 ) rope.dir=(rope.dir==LEFT)?RIGHT:LEFT;
+    rope.crossing_count-- ;
+    printf("Baboon %d reached %d\n", id,dir) ;
+    if( rope.crossing_count == 0 ) rope.dir=UNUSED;
     zem_up(&rope.lock); 
     zem_up(&rope.baboons) ;
 }

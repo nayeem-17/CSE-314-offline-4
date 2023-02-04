@@ -24,6 +24,7 @@ BEGIN {
 
 	if( crossing > capacity ) {
 		printf("id=%d, act=%s, dir=%d\n",id,act,dir);
+		printf("capacity=%d\n",capacity);
 		printf("Error! capacity exceeded\n") ;
 		exit ;
 	}
