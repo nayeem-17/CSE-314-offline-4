@@ -2,14 +2,17 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+
 enum {UNUSED=-1, LEFT, RIGHT};
 
 struct rope{
     int capacity ;
     int dir ; // -1, 0 , 1
     int cnt;
-    pthread_mutex_t lock; // = PTHREAD_MUTEX_INITIALIZER ;
-    pthread_cond_t wait// = PTHREAD_COND_INITIALIZER;
+    pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+    pthread_cond_t  lock_cond = PTHREAD_COND_INITIALIZER; 
+    pthread_mutex_t wait = PTHREAD_MUTEX_INITIALIZER;
+    pthread_cond_t  wait_cond = PTHREAD_COND_INITIALIZER;
 } rope ;
 
 typedef struct {
@@ -27,37 +30,37 @@ void rope_init() {
     rope.dir = UNUSED;
     rope.cnt = 0;
 
-    // zem_init(&rope.lock, 1);
+    // zem_init(&rope.lock, rope.capacity);
     // zem_init(&rope.wait, 1);
     // zem_init(&rope.baboons, rope.capacity) ;
-    rope.lock = PTHREAD_MUTEX_INITIALIZER;
-    rope.wait = PTHREAD_COND_INITIALIZER;
 }
 
+void acquire_rope_lock(){
+    rope.cnt++ ;
+    zem_down(&rope.lock);
+}
+void release_rope_lock(){
+    rope.cnt-- ;
+    zem_up(&rope.lock);
+}
 
 void *baboon(void *ptr ){
     int id= ((args*) ptr)->id; 
     int dir = ((args*) ptr)->dir; 
 
     while(1) {
-        zem_down(&rope.lock) ;
-        if( !( (rope.dir == UNUSED || rope.cnt == 0 || rope.dir == dir) && rope.cnt < rope.capacity ) ) {
-            zem_up(&rope.lock) ;
+        acquire_rope_lock() ;
+        if( !( (rope.dir == UNUSED || rope.cnt == 1 || rope.dir == dir)) ) { //&& rope.cnt < rope.capacity 
+            release_rope_lock() ;
             zem_down(&rope.wait) ;
             continue; 
         }
-        zem_down(&rope.wait) ;
 
         rope.dir = dir;  
-        // zem_down(&rope.baboons) ;
-        zem_down(&rope.baboons);
-        rope.cnt++;
         printf("Baboon %d going %d\n", id,dir) ;
-        rope.cnt--;
-        zem_up(&rope.baboons);
-        // zem_up(&rope.baboons);
+        // printf()
         zem_up(&rope.wait) ;
-        zem_up(&rope.lock) ;
+        release_rope_lock();
         break; 
     }
 

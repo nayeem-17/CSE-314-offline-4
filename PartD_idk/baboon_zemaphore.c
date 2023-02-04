@@ -3,16 +3,14 @@
 #include <pthread.h>
 #include "../PartC_zemaphore/zemaphore.c"
 
-
 enum {UNUSED=-1, LEFT, RIGHT};
 
 struct rope{
     int capacity ;
     int dir ; // -1, 0 , 1
     int cnt;
-    zem_t lock ;
-    zem_t wait ;
-    zem_t baboons ;
+    zem_t lock; 
+    zem_t baboons;
 } rope ;
 
 typedef struct {
@@ -30,8 +28,7 @@ void rope_init() {
     rope.dir = UNUSED;
     rope.cnt = 0;
 
-    zem_init(&rope.lock, rope.capacity);
-    zem_init(&rope.wait, 1);
+    zem_init(&rope.lock, 1);
     zem_init(&rope.baboons, rope.capacity) ;
 }
 
@@ -48,23 +45,28 @@ void *baboon(void *ptr ){
     int id= ((args*) ptr)->id; 
     int dir = ((args*) ptr)->dir; 
 
+    zem_down(&rope.baboons) ;
     while(1) {
-        acquire_rope_lock() ;
-        if( !( (rope.dir == UNUSED || rope.cnt == 1 || rope.dir == dir)) ) { //&& rope.cnt < rope.capacity 
-            release_rope_lock() ;
-            zem_down(&rope.wait) ;
+        zem_down(&rope.lock) ;
+        if( !( (rope.dir == UNUSED || rope.cnt == 0 || rope.dir == dir)) ) { 
+            zem_up(&rope.lock) ;
             continue; 
         }
-
-        rope.dir = dir;  
-        printf("Baboon %d going %d\n", id,dir) ;
-        // printf()
-        zem_up(&rope.wait) ;
-        release_rope_lock();
         break; 
     }
 
-   
+    rope.dir = dir;  
+    rope.cnt++ ;
+    printf("Baboon %d going %d\n", id,dir) ;
+    zem_up(&rope.lock) ;
+
+    sleep(1) ;
+
+    zem_down(&rope.lock) ;
+    rope.cnt-- ;
+    if( rope.cnt == 0 ) rope.dir=(rope.dir==LEFT)?RIGHT:LEFT;
+    zem_up(&rope.lock); 
+    zem_up(&rope.baboons) ;
 }
 
 
