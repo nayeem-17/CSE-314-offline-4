@@ -1,0 +1,210 @@
+Baboon 0 going 0
+Baboon 1 going 0
+Baboon 2 going 0
+Baboon 3 going 0
+Baboon 4 going 0
+Baboon 5 going 0
+Baboon 6 going 0
+Baboon 7 going 0
+Baboon 9 going 0
+Baboon 8 going 0
+Baboon 10 going 0
+Baboon 12 going 0
+Baboon 13 going 0
+Baboon 14 going 0
+Baboon 16 going 0
+Baboon 15 going 0
+Baboon 17 going 0
+Baboon 18 going 0
+Baboon 19 going 0
+Baboon 20 going 0
+Baboon 21 going 0
+Baboon 22 going 0
+Baboon 23 going 0
+Baboon 24 going 0
+Baboon 25 going 0
+Baboon 26 going 0
+Baboon 27 going 0
+Baboon 28 going 0
+Baboon 29 going 0
+Baboon 30 going 0
+Baboon 31 going 0
+Baboon 32 going 0
+Baboon 33 going 0
+Baboon 34 going 0
+Baboon 35 going 0
+Baboon 36 going 0
+Baboon 37 going 0
+Baboon 38 going 0
+Baboon 39 going 0
+Baboon 40 going 0
+Baboon 41 going 0
+Baboon 42 going 0
+Baboon 11 going 0
+Baboon 43 going 0
+Baboon 44 going 0
+Baboon 45 going 0
+Baboon 47 going 0
+Baboon 46 going 0
+Baboon 48 going 0
+Baboon 49 going 0
+Baboon 50 going 0
+Baboon 51 going 0
+Baboon 52 going 0
+Baboon 53 going 0
+Baboon 54 going 0
+Baboon 55 going 0
+Baboon 56 going 0
+Baboon 57 going 0
+Baboon 58 going 0
+Baboon 59 going 0
+Baboon 60 going 0
+Baboon 61 going 0
+Baboon 62 going 0
+Baboon 63 going 0
+Baboon 64 going 0
+Baboon 65 going 0
+Baboon 66 going 0
+Baboon 67 going 0
+Baboon 68 going 0
+Baboon 69 going 0
+Baboon 70 going 0
+Baboon 71 going 0
+Baboon 72 going 0
+Baboon 73 going 0
+Baboon 74 going 0
+Baboon 75 going 0
+Baboon 76 going 0
+Baboon 77 going 0
+Baboon 78 going 0
+Baboon 79 going 0
+Baboon 80 going 0
+Baboon 81 going 0
+Baboon 82 going 0
+Baboon 83 going 0
+Baboon 84 going 0
+Baboon 85 going 0
+Baboon 86 going 0
+Baboon 87 going 0
+Baboon 88 going 0
+Baboon 89 going 0
+Baboon 90 going 0
+Baboon 91 going 0
+Baboon 92 going 0
+Baboon 93 going 0
+Baboon 94 going 0
+Baboon 95 going 0
+Baboon 96 going 0
+Baboon 97 going 0
+Baboon 98 going 0
+Baboon 99 going 0
+Baboon 100 going 1
+Baboon 101 going 1
+Baboon 102 going 1
+Baboon 103 going 1
+Baboon 0 joined
+Baboon 1 joined
+Baboon 2 joined
+Baboon 3 joined
+Baboon 104 going 1
+Baboon 4 joined
+Baboon 5 joined
+Baboon 6 joined
+Baboon 7 joined
+Baboon 8 joined
+Baboon 9 joined
+Baboon 10 joined
+Baboon 11 joined
+Baboon 12 joined
+Baboon 13 joined
+Baboon 14 joined
+Baboon 15 joined
+Baboon 16 joined
+Baboon 17 joined
+Baboon 18 joined
+Baboon 19 joined
+Baboon 20 joined
+Baboon 21 joined
+Baboon 22 joined
+Baboon 23 joined
+Baboon 24 joined
+Baboon 25 joined
+Baboon 26 joined
+Baboon 27 joined
+Baboon 28 joined
+Baboon 29 joined
+Baboon 30 joined
+Baboon 31 joined
+Baboon 32 joined
+Baboon 33 joined
+Baboon 34 joined
+Baboon 35 joined
+Baboon 36 joined
+Baboon 37 joined
+Baboon 38 joined
+Baboon 39 joined
+Baboon 40 joined
+Baboon 41 joined
+Baboon 42 joined
+Baboon 43 joined
+Baboon 44 joined
+Baboon 45 joined
+Baboon 46 joined
+Baboon 47 joined
+Baboon 48 joined
+Baboon 49 joined
+Baboon 50 joined
+Baboon 51 joined
+Baboon 52 joined
+Baboon 53 joined
+Baboon 54 joined
+Baboon 55 joined
+Baboon 56 joined
+Baboon 57 joined
+Baboon 58 joined
+Baboon 59 joined
+Baboon 60 joined
+Baboon 61 joined
+Baboon 62 joined
+Baboon 63 joined
+Baboon 64 joined
+Baboon 65 joined
+Baboon 66 joined
+Baboon 67 joined
+Baboon 68 joined
+Baboon 69 joined
+Baboon 70 joined
+Baboon 71 joined
+Baboon 72 joined
+Baboon 73 joined
+Baboon 74 joined
+Baboon 75 joined
+Baboon 76 joined
+Baboon 77 joined
+Baboon 78 joined
+Baboon 79 joined
+Baboon 80 joined
+Baboon 81 joined
+Baboon 82 joined
+Baboon 83 joined
+Baboon 84 joined
+Baboon 85 joined
+Baboon 86 joined
+Baboon 87 joined
+Baboon 88 joined
+Baboon 89 joined
+Baboon 90 joined
+Baboon 91 joined
+Baboon 92 joined
+Baboon 93 joined
+Baboon 94 joined
+Baboon 95 joined
+Baboon 96 joined
+Baboon 97 joined
+Baboon 98 joined
+Baboon 99 joined
+Baboon 100 joined
+Baboon 101 joined
+Baboon 102 joined
+Baboon 103 joined
+Baboon 104 joined

@@ -1,6 +1,6 @@
 #include <pthread.h>
 
-typedef struct zemaphore
+typedef struct 
 {
     int value;
     pthread_cond_t cond;

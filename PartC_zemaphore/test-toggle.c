@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   toggle_zem = (zem_t *)malloc(sizeof(zem_t) * NUM_THREADS);
   for (int i = 0; i < NUM_THREADS; i++)
   {
-    zem_init(&toggle_zem, 1);
+    zem_init(&toggle_zem[i], 1);
   }
 
   for (int i = 0; i < NUM_THREADS; i++)
