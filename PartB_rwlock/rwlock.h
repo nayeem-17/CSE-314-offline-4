@@ -9,10 +9,12 @@ using namespace std;
 struct read_write_lock
 {
     pthread_mutex_t lock;
-    pthread_mutex_t writelock;
-    pthread_mutex_t readerlock;
+    pthread_cond_t writer_queue;
+    pthread_cond_t reader_queue;
     int readers;
     int writers;
+    int waiting_readers;
+    int waiting_writers;
 };
 
 void InitalizeReadWriteLock(struct read_write_lock *rw);

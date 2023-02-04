@@ -10,18 +10,17 @@
 
 #define NUM_THREADS 3
 #define NUM_ITER 10
-zem_t toggle_zem;
-int turn = 0;
+zem_t *toggle_zem;
 
 void *justprint(void *data)
 {
   int thread_id = *((int *)data);
+  int next_thread_id = (thread_id + 1) % NUM_THREADS;
   for (int i = 0; i < NUM_ITER; i++)
   {
-    zem_down(&toggle_zem);
-    printf("This is thread %d\n", turn);
-    turn = (turn + 1) % NUM_THREADS;
-    zem_up(&toggle_zem);
+    zem_down(&toggle_zem[thread_id]);
+    printf("This is thread %d\n", thread_id);
+    zem_up(&toggle_zem[next_thread_id]);
   }
   return 0;
 }
@@ -31,8 +30,11 @@ int main(int argc, char *argv[])
 
   pthread_t mythreads[NUM_THREADS];
   int mythread_id[NUM_THREADS];
-
-  zem_init(&toggle_zem, 1);
+  toggle_zem = (zem_t *)malloc(sizeof(zem_t) * NUM_THREADS);
+  for (int i = 0; i < NUM_THREADS; i++)
+  {
+    zem_init(&toggle_zem, 1);
+  }
 
   for (int i = 0; i < NUM_THREADS; i++)
   {
