@@ -65,6 +65,7 @@ void *baboon(void *ptr ){
     pthread_cond_signal(&rope.lock_cond); 
     pthread_mutex_unlock(&rope.lock) ;
     
+    pthread_mutex_lock(&rope.capacity_lock);
     rope.capacity++ ;
     pthread_cond_signal(&rope.capacity_cond) ;
     pthread_mutex_unlock(&rope.capacity_lock) ;
